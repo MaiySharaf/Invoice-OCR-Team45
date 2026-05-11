@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+data/dataset/*.jpg
+data/dataset/*.png
+artifacts/ocr_cache/
+backend/uploads/
+.git/
+*.pem
+*.zip
+.DS_Store
+Thumbs.db
