@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Invoice and Receipt Document Intelligence System — Upload, extract, and view structured data from invoices and receipts automatically." />
+  <title>InvoiceIQ — Document Intelligence System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+
+  <header class="header" role="banner">
+    <div class="header__inner">
+      <div class="logo">
+        <span class="logo__icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+            <path d="M9 8h10l4 4v12H9V8z" fill="white" fill-opacity="0.15"/>
+            <path d="M9 8h10l4 4v12H9V8z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M19 8v4h4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="12" y1="15" x2="20" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="12" y1="18" x2="20" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="12" y1="21" x2="17" y2="21" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo__text">InvoiceIQ</span>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <span class="nav-badge">Cloud Computing</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 class="hero__title" id="hero-title">
+        Invoice & Receipt<br/>
+        <span class="gradient-text">Intelligence System</span>
+      </h1>
+      <p class="hero__subtitle">
+        Upload an invoice or receipt — our system extracts key fields automatically using OCR and NLP.
+      </p>
+    </section>
+
+    <section class="section upload-section" aria-labelledby="upload-heading">
+      <h2 class="section__title" id="upload-heading">Upload Document</h2>
+      <p class="section__subtitle">Supported formats: PDF, JPG, JPEG, PNG · Max size: 10 MB</p>
+
+      <div
+        class="dropzone"
+        id="dropzone"
+        role="button"
+        tabindex="0"
+        aria-label="File upload area. Click or drag and drop a file here."
+        aria-describedby="dropzone-hint"
+      >
+        <div class="dropzone__icon" aria-hidden="true">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="26" fill="url(#upload-circle-grad)" fill-opacity="0.12"/>
+            <path d="M26 34V20M26 20l-5 5M26 20l5 5" stroke="url(#upload-arrow-grad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="16" y="35" width="20" height="2.5" rx="1.25" fill="url(#upload-arrow-grad)" fill-opacity="0.5"/>
+            <defs>
+              <linearGradient id="upload-circle-grad" x1="0" y1="0" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/>
+              </linearGradient>
+              <linearGradient id="upload-arrow-grad" x1="16" y1="20" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <p class="dropzone__primary">Drag & drop your file here</p>
+        <p class="dropzone__secondary" id="dropzone-hint">or click to browse</p>
+        <div class="dropzone__file-preview" id="file-preview" hidden aria-live="polite">
+          <span class="file-icon" aria-hidden="true">📄</span>
+          <span class="file-name" id="file-name-display"></span>
+          <button class="file-remove-btn" id="file-remove-btn" aria-label="Remove selected file" type="button">✕</button>
+        </div>
+        <input
+          type="file"
+          id="file-input"
+          accept=".pdf,.jpg,.jpeg,.png"
+          aria-hidden="true"
+          tabindex="-1"
+          style="display:none"
+        />
+      </div>
+
+      <div class="alert alert--error" id="upload-error" role="alert" aria-live="assertive" hidden>
+        <span class="alert__icon" aria-hidden="true">⚠️</span>
+        <span class="alert__msg" id="upload-error-msg"></span>
+      </div>
+
+      <div class="upload-actions">
+        <button
+          class="btn btn--primary"
+          id="extract-btn"
+          type="button"
+          disabled
+          aria-disabled="true"
+        >
+          <span class="btn__text">Extract Data</span>
+          <span class="btn__spinner" hidden aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section processing-section" id="processing-section" hidden aria-live="polite" aria-labelledby="proc-heading">
+      <div class="processing-card">
+        <div class="processing-spinner" aria-hidden="true"></div>
+        <h2 class="processing-card__title" id="proc-heading">Processing Document…</h2>
+        <p class="processing-card__sub">OCR → NLP extraction in progress</p>
+        <div class="processing-steps" aria-label="Processing steps">
+          <div class="proc-step" id="step-upload">
+            <span class="proc-step__dot"></span>
+            <span class="proc-step__label">Uploading file</span>
+          </div>
+          <div class="proc-step" id="step-ocr">
+            <span class="proc-step__dot"></span>
+            <span class="proc-step__label">Running OCR</span>
+          </div>
+          <div class="proc-step" id="step-nlp">
+            <span class="proc-step__dot"></span>
+            <span class="proc-step__label">Extracting fields</span>
+          </div>
+          <div class="proc-step" id="step-done">
+            <span class="proc-step__dot"></span>
+            <span class="proc-step__label">Finalising results</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results-section" hidden aria-labelledby="results-heading">
+      <div class="results-header">
+        <h2 class="section__title" id="results-heading">Extraction Results</h2>
+        <button class="btn btn--ghost" id="new-upload-btn" type="button">↩ New Upload</button>
+      </div>
+
+      <div class="alert alert--success" id="results-success" role="status" aria-live="polite">
+        <span class="alert__icon" aria-hidden="true">✅</span>
+        <span class="alert__msg">Document processed successfully</span>
+      </div>
+
+      <div class="result-cards" id="result-cards" aria-label="Extracted data fields">
+      </div>
+
+      <details class="raw-json-toggle" id="raw-json-details">
+        <summary class="raw-json-toggle__summary" id="raw-json-btn" aria-controls="raw-json-block">
+          View raw JSON response
+        </summary>
+        <pre class="raw-json" id="raw-json-block" aria-label="Raw JSON response from backend"></pre>
+      </details>
+
+      <div class="alert alert--error" id="result-error" role="alert" aria-live="assertive" hidden>
+        <span class="alert__icon" aria-hidden="true">⚠️</span>
+        <span class="alert__msg" id="result-error-msg"></span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <p>InvoiceIQ · Cloud Computing</p>
+  </footer>
+
+  <script src="script/app.js"></script>
+</body>
+</html>
